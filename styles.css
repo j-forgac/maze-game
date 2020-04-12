@@ -1,0 +1,48 @@
+.grass {
+	background-color: #f6fffd;
+	height: 30px;
+	width: 30px;
+}
+
+.wall {
+	background-color: #000000;
+	height: 30px;
+	width: 30px;
+}
+
+.player {
+	background-color: #ff3f4f;
+	height: 30px;
+	width: 30px;
+}
+
+.goal {
+	background-color: #4b70b0;
+	height: 30px;
+	width: 30px;
+}
+
+.wholeMaze {
+	display: flex;
+}
+
+body{
+	display: flex;
+	justify-content: center;
+}
+.wholeMaze{
+	display: flex;
+	flex-direction: column;
+
+}
+
+.row{
+	display: flex;
+	flex-direction: row;
+}
+
+.success{
+	background-color: #a8a62f;
+	height: 30px;
+	width: 30px;
+}
