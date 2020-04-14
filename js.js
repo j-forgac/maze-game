@@ -1,34 +1,22 @@
 let allMaps = [];
-let map0 = [
-		[99,99,99,99,99,99,99,99,99,99,99,99,99],
-		[99,1,1,1,1,1,1,1,1,1,1,1,99],
-		[99,2,0,1,0,0,0,1,0,0,0,1,99],
-		[99,1,0,1,0,1,0,1,0,1,0,1,99],
-		[99,1,0,0,0,1,0,0,0,1,0,1,99],
-		[99,1,0,1,1,1,1,1,1,1,0,1,99],
-		[99,1,0,1,0,0,0,1,0,0,0,1,99],
-		[99,1,1,1,0,1,0,1,0,1,0,1,99],
-		[99,1,0,0,0,1,0,0,0,1,0,1,99],
-		[99,1,0,1,1,1,1,1,1,1,0,1,99],
-		[99,1,0,1,0,0,0,0,0,0,0,3,99],
-		[99,1,1,1,1,1,1,1,1,1,1,1,99],
-		[99,99,99,99,99,99,99,99,99,99,99,99,99],
-
-
-];
-allMaps[0] = map0;
-
 let wholeMaze;
 let squares = [];
-
-let level = 1;
-let currentMap = allMaps[0];
+let level = 0;
+let currentMap;
 let squareType = ["grass", "wall", "player", "goal", "success"];
 window.addEventListener("load", startGame);
+
+
 let columnPos;
 let rowPos;
 
+let firstMap;
+let SecondMap;
+let ThirdMap;
+
+
 function renderMap() {
+	chooseRandMap();
 	for (let row = 0; row < currentMap.length; row++) {
 		let divRow = document.createElement("div");
 		divRow.setAttribute("class", "row");
@@ -44,14 +32,30 @@ function renderMap() {
 			}
 		}
 	}
+
+}
+
+
+
+function removeOldMap() {
+	for (let x = 0; x < squares.length; x++){
+		for (let y = 0; y < squares[x].length; y++) {
+			squares[x][y].remove();
+		}
+	}
+
 }
 
 function startGame() {
+
 	wholeMaze = document.getElementById("whole-maze");
 
 	renderMap();
 	document.addEventListener("keydown", movement);
 }
+
+
+
 
 function setGrass() {
 	currentMap[rowPos][columnPos] = 0;
@@ -61,7 +65,11 @@ function setGrass() {
 function changeMoveWin() {
 	currentMap[rowPos][columnPos] = 0;
 	squares[rowPos][columnPos].setAttribute("class", "grass");
-	squares[currentMap.length-2][currentMap[0].length-1].setAttribute("class", "success");
+	squares[currentMap.length-3][currentMap[0].length-2].setAttribute("class", "success");
+	removeOldMap();
+	level++;
+	console.log(level);
+	renderMap();
 }
 
 function movePlayer(newRowPos, newColumnPos) {
@@ -109,6 +117,15 @@ function movement(event) {
 	}
 
 }
+
+function chooseRandMap() {
+	firstMap = Math.floor(Math.random()*3);
+	currentMap = allMaps[level][firstMap];
+}
+
+
+
+
 
 
 

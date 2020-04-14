@@ -1,25 +1,25 @@
 .grass {
 	background-color: #f6fffd;
-	height: 30px;
-	width: 30px;
+	height: 15px;
+	width: 15px;
 }
 
 .wall {
 	background-color: #000000;
-	height: 30px;
-	width: 30px;
+	height: 15px;
+	width: 15px;
 }
 
 .player {
 	background-color: #ff3f4f;
-	height: 30px;
-	width: 30px;
+	height: 15px;
+	width: 15px;
 }
 
 .goal {
 	background-color: #4b70b0;
-	height: 30px;
-	width: 30px;
+	height: 15px;
+	width: 15px;
 }
 
 .wholeMaze {
@@ -43,6 +43,6 @@ body{
 
 .success{
 	background-color: #a8a62f;
-	height: 30px;
-	width: 30px;
+	height: 15px;
+	width: 15px;
 }
