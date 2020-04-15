@@ -3,7 +3,7 @@ let wholeMaze;
 let squares = [];
 let level = 0;
 let currentMap;
-let squareType = ["grass", "wall", "player", "goal", "success"];
+let squareType = ["grass", "wall", "playerDown", "goal", "success"];
 window.addEventListener("load", startGame);
 
 
@@ -72,9 +72,9 @@ function changeMoveWin() {
 	renderMap();
 }
 
-function movePlayer(newRowPos, newColumnPos) {
+function movePlayer(newRowPos, newColumnPos, side) {
 	currentMap[newRowPos][newColumnPos] = 2;
-	squares[newRowPos][newColumnPos].setAttribute("class", "player");
+	squares[newRowPos][newColumnPos].setAttribute("class", side);
 
 	rowPos = newRowPos;
 	columnPos = newColumnPos;
@@ -88,7 +88,7 @@ function movement(event) {
 			changeMoveWin();
 		} else {
 			setGrass();
-			movePlayer(rowPos-1, columnPos);
+			movePlayer(rowPos-1, columnPos, "playerUp");
 		}
 	} else if (event.code === "KeyD" || event.code === "ArrowRight") {
 		if (currentMap[rowPos][columnPos+1] === 1 || currentMap[rowPos][columnPos+1] === 99) {
@@ -96,7 +96,7 @@ function movement(event) {
 			changeMoveWin();
 		} else {
 			setGrass();
-			movePlayer(rowPos, columnPos + 1);
+			movePlayer(rowPos, columnPos + 1, "playerRight");
 		}
 	} else if (event.code === "KeyS" || event.code === "ArrowDown") {
 		if (currentMap[rowPos+1][columnPos] === 1 || currentMap[rowPos][columnPos+1] === 99) {
@@ -104,7 +104,7 @@ function movement(event) {
 			changeMoveWin();
 		} else {
 			setGrass();
-			movePlayer(rowPos +1, columnPos);
+			movePlayer(rowPos +1, columnPos,"playerDown");
 		}
 	} else if (event.code === "KeyA" || event.code === "ArrowLeft") {
 		if (currentMap[rowPos][columnPos-1] === 1 ||currentMap[rowPos][columnPos-1] === 99) {
@@ -112,7 +112,7 @@ function movement(event) {
 			changeMoveWin();
 		} else {
 			setGrass();
-			movePlayer(rowPos, columnPos - 1);
+			movePlayer(rowPos, columnPos - 1, "playerLeft");
 		}
 	}
 
@@ -120,6 +120,7 @@ function movement(event) {
 
 function chooseRandMap() {
 	firstMap = Math.floor(Math.random()*3);
+	console.log(firstMap);
 	currentMap = allMaps[level][firstMap];
 }
 

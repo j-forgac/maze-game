@@ -6,6 +6,7 @@
   background-color: #000000;
 }
 
+
 .playerDown {
   background-image: url("down.movement.png");
   background-size: cover;
@@ -34,27 +35,26 @@
   display: flex;
 }
 
-body {
+body{
   display: flex;
   justify-content: center;
 }
-
-.wholeMaze {
+.wholeMaze{
   display: flex;
   flex-direction: column;
+
 }
 
-.row {
+.row{
   display: flex;
   flex-direction: row;
-}
-.row div {
-  width: 15px;
-  height: 15px;
+  div{
+	width: 15px;
+	height: 15px;
+  }
 }
 
-.success {
+.success{
   background-color: #a8a62f;
 }
 
-/*# sourceMappingURL=styles.css.map */
