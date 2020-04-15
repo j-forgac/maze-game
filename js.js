@@ -9,7 +9,7 @@ window.addEventListener("load", startGame);
 
 let columnPos;
 let rowPos;
-
+let menu;
 let firstMap;
 let SecondMap;
 let ThirdMap;
@@ -17,6 +17,9 @@ let ThirdMap;
 
 function renderMap() {
 	chooseRandMap();
+	wholeMaze.setAttribute("class", "l" + level);
+	menu.setAttribute("class", "lmenu" + level);
+	menu.textContent ="MAZE LVL " + (level + 1);
 	for (let row = 0; row < currentMap.length; row++) {
 		let divRow = document.createElement("div");
 		divRow.setAttribute("class", "row");
@@ -24,8 +27,12 @@ function renderMap() {
 		squares[row] = [];
 		for (let column = 0; column < currentMap[row].length; column++){
 			squares[row][column] = document.createElement("div");
-			squares[row][column].setAttribute("class", squareType[currentMap[row][column]]);
 			divRow.appendChild(squares[row][column]);
+			if (currentMap[row][column] === 99) {
+				squares[row][column].setAttribute("class", "invisible");
+			} else {
+				squares[row][column].setAttribute("class", squareType[currentMap[row][column]]);
+			}
 			if (currentMap[row][column] === 2) {
 				rowPos = row;
 				columnPos = column;
@@ -47,7 +54,7 @@ function removeOldMap() {
 }
 
 function startGame() {
-
+	menu = document.getElementById("menu");
 	wholeMaze = document.getElementById("whole-maze");
 
 	renderMap();
@@ -66,10 +73,14 @@ function changeMoveWin() {
 	currentMap[rowPos][columnPos] = 0;
 	squares[rowPos][columnPos].setAttribute("class", "grass");
 	squares[currentMap.length-3][currentMap[0].length-2].setAttribute("class", "success");
-	removeOldMap();
 	level++;
-	console.log(level);
-	renderMap();
+	if(level>4){
+		window.location = "win.html";
+	} else {
+		removeOldMap();
+		renderMap();
+	}
+
 }
 
 function movePlayer(newRowPos, newColumnPos, side) {
@@ -83,8 +94,9 @@ function movePlayer(newRowPos, newColumnPos, side) {
 
 function movement(event) {
 	if (event.code === "KeyW" || event.code === "ArrowUp") {
-		if (currentMap[rowPos-1][columnPos] === 1 || currentMap[rowPos-1][columnPos] === 99) {
-		} else if (currentMap[rowPos-1][columnPos] === 3){
+		if (currentMap[rowPos-1][columnPos] === 1 || currentMap[rowPos-1][columnPos] === 99){
+			movePlayer(rowPos, columnPos, "playerUp");
+		}else if (currentMap[rowPos-1][columnPos] === 3){
 			changeMoveWin();
 		} else {
 			setGrass();
@@ -92,6 +104,7 @@ function movement(event) {
 		}
 	} else if (event.code === "KeyD" || event.code === "ArrowRight") {
 		if (currentMap[rowPos][columnPos+1] === 1 || currentMap[rowPos][columnPos+1] === 99) {
+			movePlayer(rowPos, columnPos, "playerRight");
 		} else if (currentMap[rowPos][columnPos+1] === 3){
 			changeMoveWin();
 		} else {
@@ -100,6 +113,7 @@ function movement(event) {
 		}
 	} else if (event.code === "KeyS" || event.code === "ArrowDown") {
 		if (currentMap[rowPos+1][columnPos] === 1 || currentMap[rowPos][columnPos+1] === 99) {
+			movePlayer(rowPos, columnPos, "playerDown");
 		} else if (currentMap[rowPos+1][columnPos] === 3){
 			changeMoveWin();
 		} else {
@@ -108,6 +122,7 @@ function movement(event) {
 		}
 	} else if (event.code === "KeyA" || event.code === "ArrowLeft") {
 		if (currentMap[rowPos][columnPos-1] === 1 ||currentMap[rowPos][columnPos-1] === 99) {
+			movePlayer(rowPos, columnPos, "playerLeft");
 		} else if (currentMap[rowPos][columnPos-1] === 3){
 			changeMoveWin();
 		} else {
@@ -120,7 +135,6 @@ function movement(event) {
 
 function chooseRandMap() {
 	firstMap = Math.floor(Math.random()*3);
-	console.log(firstMap);
 	currentMap = allMaps[level][firstMap];
 }
 
