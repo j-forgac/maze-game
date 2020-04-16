@@ -3,7 +3,7 @@ let wholeMaze;
 let squares = [];
 let level = 0;
 let currentMap;
-let squareType = ["grass", "wall", "playerDown", "goal"];
+let squareType = ["grass", "wall", "playerDown"];
 let components;
 window.addEventListener("load", startGame);
 
@@ -18,9 +18,16 @@ let intervalTimer;
 let time;
 let divTime;
 
+let overlay;
 let popUp;
 let activePopUp = false;
 
+let lives = 3;
+let HP1;
+let HP2;
+let HP3;
+
+let ikons = document.getElementsByClassName("ikons");
 function renderMap() {
 	chooseRandMap();
 	wholeMaze.setAttribute("class", "l" + level);
@@ -38,6 +45,18 @@ function renderMap() {
 			divRow.appendChild(squares[row][column]);
 			if (currentMap[row][column] === 99) {
 				squares[row][column].setAttribute("class", "invisible");
+			} else if (currentMap[row][column] === 3) {
+				if (level===0){
+					squares[row][column].setAttribute("class", "diaG");
+				} else if (level===1){
+					squares[row][column].setAttribute("class", "diaY");
+				} else if (level===2){
+					squares[row][column].setAttribute("class", "diaR");
+				} else if (level===3){
+					squares[row][column].setAttribute("class", "diaP");
+				} else {
+					squares[row][column].setAttribute("class", "diaB");
+				}
 			} else {
 				squares[row][column].setAttribute("class", squareType[currentMap[row][column]]);
 			}
@@ -65,15 +84,25 @@ function startGame() {
 	components = document.getElementById("components");
 	divTime = document.getElementById("count");
 	popUp = document.getElementById("popUp");
+	overlay = document.getElementById("overlay");
+
+	HP1 = document.getElementById("HP1");
+	HP2 = document.getElementById("HP2");
+	HP3 = document.getElementById("HP3");
 
 	renderMap();
 	document.addEventListener("keydown", movement);
 
-	document.getElementById("next").addEventListener("click", hidePopUp);
-	document.getElementById("again").addEventListener("click", hidePopUp);
 	document.getElementById("next").addEventListener("click", function () {
 		level++;
 	});
+	document.getElementById("next").addEventListener("click", hidePopUp);
+
+	document.getElementById("again").addEventListener("click", function () {
+		lives--;
+	});
+	document.getElementById("again").addEventListener("click", hidePopUp);
+
 }
 
 let waitFor = function () {
@@ -95,6 +124,8 @@ function setGrass() {
 
 function changeMoveWin()
 {
+	document.getElementById("lvlText").textContent = "You completed level!";
+	document.getElementById("lvlText").setAttribute("class","completed");
 	if (level > 4) {
 		window.location = "win.html";
 	} else {
@@ -186,28 +217,39 @@ function timer() {
 	} else if (level === 1) {
 		time = 30;
 	} else if (level === 2) {
-		time = 50;
+		time = 45;
 	} else if (level === 3) {
-		time = 60;
+		time = 55;
 	} else if (level === 4) {
-		time = 70;
+		time = 65;
 	}
-	divTime.textContent = time;
+	let minutes = (time / 60) | 0;
+	let seconds = (time % 60) | 0;
+	minutes = minutes < 10 ? "0" + minutes : minutes;
+	seconds = seconds < 10 ? "0" + seconds : seconds;
+	divTime.textContent = minutes +":"+ seconds;
 	let fullTime = time;
 	divTime.removeAttribute("class", "close");
 	clearInterval(intervalTimer);
 	intervalTimer = setInterval(function () {
-
 		if (!activePopUp) {
 			time--;
 		}
+
+		let minutes = (time / 60) | 0;
+		let seconds = (time % 60) ;
+		minutes = minutes < 10 ? "0" + minutes : minutes;
+		seconds = seconds < 10 ? "0" + seconds : seconds;
+
 		if (time >= 0) {
-			divTime.textContent = time;
+			divTime.textContent = minutes +":"+ seconds;
 		}
 		if (fullTime / 5 >= time) {
 			divTime.setAttribute("class", "close");
 		}
 		if (time === 0) {
+			document.getElementById("lvlText").textContent = "You were lost in the maze!";
+			document.getElementById("lvlText").setAttribute("class","lost");
 			showPopUp();
 			waitFor();
 		}
@@ -215,13 +257,27 @@ function timer() {
 }
 
 function hidePopUp() {
+	livesCounter();
 	activePopUp = false;
+	overlay.setAttribute('class', 'hide');
 	popUp.setAttribute("class", "hide");
 }
 
 function showPopUp() {
 	activePopUp = true;
+	overlay.setAttribute("class", "show");
 	popUp.setAttribute("class", "show");
+}
+
+function livesCounter() {
+	if(lives === 0){
+		document.getElementsByClassName("textRemove")[0].textContent = "";
+		HP3.setAttribute("class", "empty");
+	} else if(lives === 1){
+		HP2.setAttribute("class", "empty");
+	} else if(lives === 2){
+		HP1.setAttribute("class", "empty");
+	}
 }
 
 

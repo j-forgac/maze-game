@@ -154,9 +154,8 @@ body {
 }
 
 .components0{
-  width: 550px;
   div#timer{
-	margin-right: 230px;
+	margin-right: 120px;
   }
   div#lives{
 	margin-left: 230px;
@@ -164,22 +163,37 @@ body {
 
 }
 .components1{
-  width: 650px;
+
   div#timer{
-	margin-right: 250px;
+	margin-right: 190px;
   }
   div#lives{
 	margin-left: 250px;
   }
 }
 .components2{
-  width: 665px;
+  div#timer{
+	margin-right: 202px;
+  }
+  div#lives{
+	margin-left: 250px;
+  }
 }
 .components3{
-  width: 660px;
+  div#timer{
+	margin-right: 215px;
+  }
+  div#lives{
+	margin-left: 250px;
+  }
 }
 .components4{
-  width: 660px;
+  div#timer{
+	margin-right: 199px;
+  }
+  div#lives{
+	margin-left: 250px;
+  }
 }
 
 #timer{
@@ -189,13 +203,25 @@ body {
 
 }
 
+#overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.9;
+}
+
 #popUp{
   position: fixed;
   top: 42%;
   left: 37%;
   width: 495px;
   height: 300px;
-  background-color: blue;
+  background-color: #fff9fa;
   border-radius: 8px;
 }
 
@@ -209,4 +235,73 @@ body {
 
 .close{
   color: #a52a2a;
+}
+
+#lvlText{
+  color: white;
+  font-size: 32px;
+  text-align: center;
+  margin: 10px 0 20px 0;
+  padding-top: 20px;
+}
+
+.full{
+  width: 36px;
+  height:30px;
+  background-image: url("lives2.png");
+  background-size: cover;
+}
+.empty{
+  width: 36px;
+  height:30px;
+  background-image: url("lives1.png");
+  background-size: cover;
+}
+
+.ikons{
+  display: flex;
+  justify-content: end;
+}
+
+.diaG{
+  background-image: url("DiaGre.png");
+  background-size: cover;
+}
+.diaY{
+  background-image: url("DiaYel.png");
+  background-size: cover;
+}
+.diaR{
+  background-image: url("DiaRed.png");
+  background-size: cover;
+}
+.diaP{
+  background-image: url("DiaPur.png");
+  background-size: cover;
+}
+.diaB{
+  background-image: url("DiaBlue.png");
+  background-size: cover;
+}
+
+.livesText{
+  text-align: right;
+}
+
+.lost{
+	background-color: brown;
+}
+
+.completed{
+  background-color: #31a51e;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-content: end;
+  height: 200px;
+  div{
+
+  }
 }
