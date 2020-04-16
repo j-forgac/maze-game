@@ -146,9 +146,11 @@ body {
 }
 
 #components{
-  height: 60px;
+  height: 100px;
   display: flex;
   justify-content: center;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 .components0{
@@ -203,4 +205,8 @@ body {
 
 .hide {
   display: none;
+}
+
+.close{
+  color: #a52a2a;
 }

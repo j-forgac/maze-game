@@ -11,9 +11,8 @@ window.addEventListener("load", startGame);
 let columnPos;
 let rowPos;
 let menu;
-let firstMap;
-let SecondMap;
-let ThirdMap;
+let lastRandom;
+let currentRandom;
 
 let intervalTimer;
 let time;
@@ -27,14 +26,14 @@ function renderMap() {
 	wholeMaze.setAttribute("class", "l" + level);
 	menu.setAttribute("class", "lmenu" + level);
 	components.setAttribute("class", "components" + level);
-	menu.textContent ="MAZE LVL " + (level + 1);
+	menu.textContent = "MAZE LVL " + (level + 1);
 	timer();
 	for (let row = 0; row < currentMap.length; row++) {
 		let divRow = document.createElement("div");
 		divRow.setAttribute("class", "row");
 		wholeMaze.appendChild(divRow);
 		squares[row] = [];
-		for (let column = 0; column < currentMap[row].length; column++){
+		for (let column = 0; column < currentMap[row].length; column++) {
 			squares[row][column] = document.createElement("div");
 			divRow.appendChild(squares[row][column]);
 			if (currentMap[row][column] === 99) {
@@ -52,7 +51,7 @@ function renderMap() {
 
 
 function removeOldMap() {
-	for (let x = 0; x < squares.length; x++){
+	for (let x = 0; x < squares.length; x++) {
 		for (let y = 0; y < squares[x].length; y++) {
 			squares[x][y].remove();
 		}
@@ -70,10 +69,23 @@ function startGame() {
 	renderMap();
 	document.addEventListener("keydown", movement);
 
-	document.getElementById("hide-popup").addEventListener("click", hidePopUp)
+	document.getElementById("next").addEventListener("click", hidePopUp);
+	document.getElementById("again").addEventListener("click", hidePopUp);
+	document.getElementById("next").addEventListener("click", function () {
+		level++;
+	});
 }
 
-
+let waitFor = function () {
+	setTimeout(function () {
+		if (activePopUp) {
+			waitFor();
+		} else {
+			removeOldMap();
+			renderMap();
+		}
+	});
+};
 
 
 function setGrass() {
@@ -81,29 +93,18 @@ function setGrass() {
 	squares[rowPos][columnPos].setAttribute("class", "grass");
 }
 
-function changeMoveWin() {
-	showPopUp();
-
-	level++;
-	if(level>4){
+function changeMoveWin()
+{
+	if (level > 4) {
 		window.location = "win.html";
 	} else {
-		let waitFor = function () {
-			setTimeout(function () {
-				if(activePopUp){
-					waitFor();
-				} else {
-					removeOldMap();
-					renderMap();
-				}
-			});
-		};
+		showPopUp();
 		waitFor();
+	}
 }
 
-}
-
-function movePlayer(newRowPos, newColumnPos, side) {
+function movePlayer(newRowPos, newColumnPos, side)
+{
 	if (currentMap[newRowPos][newColumnPos] !== 3) {
 		currentMap[newRowPos][newColumnPos] = 2;
 	}
@@ -115,24 +116,24 @@ function movePlayer(newRowPos, newColumnPos, side) {
 }
 
 function movement(event) {
-	if (activePopUp){
+	if (activePopUp) {
 		return;
 	}
 
 	if (event.code === "KeyW" || event.code === "ArrowUp") {
-		if (currentMap[rowPos-1][columnPos] === 1 || currentMap[rowPos-1][columnPos] === 99){
+		if (currentMap[rowPos - 1][columnPos] === 1 || currentMap[rowPos - 1][columnPos] === 99) {
 			movePlayer(rowPos, columnPos, "playerUp");
-		}else if (currentMap[rowPos-1][columnPos] === 3 || currentMap[rowPos-1][columnPos] === 0){
+		} else if (currentMap[rowPos - 1][columnPos] === 3 || currentMap[rowPos - 1][columnPos] === 0) {
 			setGrass();
-			movePlayer(rowPos-1, columnPos, "playerUp");
+			movePlayer(rowPos - 1, columnPos, "playerUp");
 		}
 		if (currentMap[rowPos][columnPos] === 3) {
 			changeMoveWin();
 		}
 	} else if (event.code === "KeyD" || event.code === "ArrowRight") {
-		if (currentMap[rowPos][columnPos+1] === 1 || currentMap[rowPos][columnPos+1] === 99) {
+		if (currentMap[rowPos][columnPos + 1] === 1 || currentMap[rowPos][columnPos + 1] === 99) {
 			movePlayer(rowPos, columnPos, "playerRight");
-		} else if (currentMap[rowPos][columnPos+1] === 3 || currentMap[rowPos][columnPos+1] === 0) {
+		} else if (currentMap[rowPos][columnPos + 1] === 3 || currentMap[rowPos][columnPos + 1] === 0) {
 			setGrass();
 			movePlayer(rowPos, columnPos + 1, "playerRight");
 		}
@@ -140,36 +141,47 @@ function movement(event) {
 			changeMoveWin()
 		}
 	} else if (event.code === "KeyS" || event.code === "ArrowDown") {
-		if (currentMap[rowPos+1][columnPos] === 1 || currentMap[rowPos][columnPos+1] === 99) {
+		if (currentMap[rowPos + 1][columnPos] === 1 || currentMap[rowPos][columnPos + 1] === 99) {
 			movePlayer(rowPos, columnPos, "playerDown");
-		} else if (currentMap[rowPos+1][columnPos] === 3 || currentMap[rowPos+1][columnPos] === 0){
+		} else if (currentMap[rowPos + 1][columnPos] === 3 || currentMap[rowPos + 1][columnPos] === 0) {
 			setGrass();
-			movePlayer(rowPos +1, columnPos,"playerDown");
+			movePlayer(rowPos + 1, columnPos, "playerDown");
 		}
-		if(currentMap[rowPos][columnPos] === 3){
+		if (currentMap[rowPos][columnPos] === 3) {
 			changeMoveWin()
 		}
 	} else if (event.code === "KeyA" || event.code === "ArrowLeft") {
-		if (currentMap[rowPos][columnPos-1] === 1 ||currentMap[rowPos][columnPos-1] === 99) {
+		if (currentMap[rowPos][columnPos - 1] === 1 || currentMap[rowPos][columnPos - 1] === 99) {
 			movePlayer(rowPos, columnPos, "playerLeft");
-		} else if (currentMap[rowPos][columnPos-1] === 3 || currentMap[rowPos][columnPos-1] === 0){
+		} else if (currentMap[rowPos][columnPos - 1] === 3 || currentMap[rowPos][columnPos - 1] === 0) {
 			setGrass();
 			movePlayer(rowPos, columnPos - 1, "playerLeft");
 		}
-		if(currentMap[rowPos][columnPos] === 3){
+		if (currentMap[rowPos][columnPos] === 3) {
 			changeMoveWin();
 		}
 	}
 
 }
 
-function chooseRandMap() {
-	firstMap = Math.floor(Math.random()*3);
-	currentMap = allMaps[level][firstMap];
+function chooseRandMap()
+{
+	while (currentRandom === lastRandom){
+		currentRandom = Math.floor(Math.random() * 3);
+	}
+	lastRandom = currentRandom;
+
+	currentMap = [];
+	for (let i = 0; i < allMaps[level][lastRandom].length; i++) {
+		currentMap[i] = [];
+		for (let j = 0; j < allMaps[level][lastRandom][i].length; j++) {
+			currentMap[i][j] = allMaps[level][lastRandom][i][j];
+		}
+	}
 }
 
-function timer(){
-	if (level === 0){
+function timer() {
+	if (level === 0) {
 		time = 20;
 	} else if (level === 1) {
 		time = 30;
@@ -181,14 +193,23 @@ function timer(){
 		time = 70;
 	}
 	divTime.textContent = time;
-
+	let fullTime = time;
+	divTime.removeAttribute("class", "close");
 	clearInterval(intervalTimer);
 	intervalTimer = setInterval(function () {
-		if(!activePopUp){
+
+		if (!activePopUp) {
 			time--;
 		}
-		if(time>=0) {
+		if (time >= 0) {
 			divTime.textContent = time;
+		}
+		if (fullTime / 5 >= time) {
+			divTime.setAttribute("class", "close");
+		}
+		if (time === 0) {
+			showPopUp();
+			waitFor();
 		}
 	}, 1000);
 }
