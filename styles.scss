@@ -55,8 +55,8 @@ body {
   &.l1 {
 	.row {
 	  div {
-		width: 27px;
-		height: 27px;
+		width: 26px;
+		height: 26px;
 	  }
 	}
   }
@@ -104,9 +104,6 @@ body {
 }
 
 
-.success {
-  background-color: #d2cccd;
-}
 
 
 body {
@@ -146,4 +143,64 @@ body {
 
 .invisible {
   background-color: white;
+}
+
+#components{
+  height: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.components0{
+  width: 550px;
+  div#timer{
+	margin-right: 230px;
+  }
+  div#lives{
+	margin-left: 230px;
+  }
+
+}
+.components1{
+  width: 650px;
+  div#timer{
+	margin-right: 250px;
+  }
+  div#lives{
+	margin-left: 250px;
+  }
+}
+.components2{
+  width: 665px;
+}
+.components3{
+  width: 660px;
+}
+.components4{
+  width: 660px;
+}
+
+#timer{
+}
+
+#lives{
+
+}
+
+#popUp{
+  position: fixed;
+  top: 42%;
+  left: 37%;
+  width: 495px;
+  height: 300px;
+  background-color: blue;
+  border-radius: 8px;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
 }
