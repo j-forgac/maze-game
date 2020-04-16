@@ -17,17 +17,33 @@ let currentRandom;
 let intervalTimer;
 let time;
 let divTime;
+let fullTime;
 
 let overlay;
 let popUp;
 let activePopUp = false;
+let gameOverButton;
 
 let lives = 3;
 let HP1;
 let HP2;
 let HP3;
 
+let levelScore;
+let totalScore = 0;
+let timeScore;
+let diaScore;
+let diaArray = [
+	120,
+	650,
+	1300,
+	2000,
+	3000
+];
+
+
 let ikons = document.getElementsByClassName("ikons");
+
 function renderMap() {
 	chooseRandMap();
 	wholeMaze.setAttribute("class", "l" + level);
@@ -46,13 +62,13 @@ function renderMap() {
 			if (currentMap[row][column] === 99) {
 				squares[row][column].setAttribute("class", "invisible");
 			} else if (currentMap[row][column] === 3) {
-				if (level===0){
+				if (level === 0) {
 					squares[row][column].setAttribute("class", "diaG");
-				} else if (level===1){
+				} else if (level === 1) {
 					squares[row][column].setAttribute("class", "diaY");
-				} else if (level===2){
+				} else if (level === 2) {
 					squares[row][column].setAttribute("class", "diaR");
-				} else if (level===3){
+				} else if (level === 3) {
 					squares[row][column].setAttribute("class", "diaP");
 				} else {
 					squares[row][column].setAttribute("class", "diaB");
@@ -122,10 +138,15 @@ function setGrass() {
 	squares[rowPos][columnPos].setAttribute("class", "grass");
 }
 
-function changeMoveWin()
-{
+function changeMoveWin() {
 	document.getElementById("lvlText").textContent = "You completed level!";
-	document.getElementById("lvlText").setAttribute("class","completed");
+	document.getElementById("lvlText").setAttribute("class", "completed");
+
+
+	document.getElementsByClassName("textRemove2")[0].textContent = "Next level";
+	document.getElementById("next").setAttribute("class", "show");
+
+	diaScore = diaArray[level];
 	if (level > 4) {
 		window.location = "win.html";
 	} else {
@@ -134,8 +155,7 @@ function changeMoveWin()
 	}
 }
 
-function movePlayer(newRowPos, newColumnPos, side)
-{
+function movePlayer(newRowPos, newColumnPos, side) {
 	if (currentMap[newRowPos][newColumnPos] !== 3) {
 		currentMap[newRowPos][newColumnPos] = 2;
 	}
@@ -195,9 +215,8 @@ function movement(event) {
 
 }
 
-function chooseRandMap()
-{
-	while (currentRandom === lastRandom){
+function chooseRandMap() {
+	while (currentRandom === lastRandom) {
 		currentRandom = Math.floor(Math.random() * 3);
 	}
 	lastRandom = currentRandom;
@@ -227,31 +246,45 @@ function timer() {
 	let seconds = (time % 60) | 0;
 	minutes = minutes < 10 ? "0" + minutes : minutes;
 	seconds = seconds < 10 ? "0" + seconds : seconds;
-	divTime.textContent = minutes +":"+ seconds;
-	let fullTime = time;
+	divTime.textContent = minutes + ":" + seconds;
+	fullTime = time;
 	divTime.removeAttribute("class", "close");
 	clearInterval(intervalTimer);
 	intervalTimer = setInterval(function () {
+
 		if (!activePopUp) {
 			time--;
-		}
 
-		let minutes = (time / 60) | 0;
-		let seconds = (time % 60) ;
-		minutes = minutes < 10 ? "0" + minutes : minutes;
-		seconds = seconds < 10 ? "0" + seconds : seconds;
+			let minutes = (time / 60) | 0;
+			let seconds = (time % 60);
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+			seconds = seconds < 10 ? "0" + seconds : seconds;
 
-		if (time >= 0) {
-			divTime.textContent = minutes +":"+ seconds;
-		}
-		if (fullTime / 5 >= time) {
-			divTime.setAttribute("class", "close");
-		}
-		if (time === 0) {
-			document.getElementById("lvlText").textContent = "You were lost in the maze!";
-			document.getElementById("lvlText").setAttribute("class","lost");
-			showPopUp();
-			waitFor();
+			if (time >= 0) {
+				divTime.textContent = minutes + ":" + seconds;
+			}
+			if (fullTime / 5 >= time) {
+				divTime.setAttribute("class", "close");
+			}
+			if (time === 0) {
+				if(lives === 0) {
+					document.getElementById("lvlText").textContent = "Game Over!";
+					document.getElementById("lvlText").setAttribute("class","black");
+					gameOverButton = document.getElementById("restart");
+					gameOverButton.setAttribute("class","show");
+				} else {
+					document.getElementById("lvlText").textContent = "You were lost in the maze!";
+					document.getElementById("lvlText").setAttribute("class", "lost");
+				}
+
+				diaScore = 0;
+
+				showPopUp();
+				waitFor();
+
+				document.getElementsByClassName("textRemove2")[0].textContent = "";
+				document.getElementById("next").setAttribute("class", "hide");
+			}
 		}
 	}, 1000);
 }
@@ -267,17 +300,35 @@ function showPopUp() {
 	activePopUp = true;
 	overlay.setAttribute("class", "show");
 	popUp.setAttribute("class", "show");
+	countScore();
 }
 
 function livesCounter() {
-	if(lives === 0){
+	if (lives === 0) {
 		document.getElementsByClassName("textRemove")[0].textContent = "";
+		document.getElementById("again").setAttribute("class", "hide");
 		HP3.setAttribute("class", "empty");
-	} else if(lives === 1){
+	} else if (lives === 1) {
 		HP2.setAttribute("class", "empty");
-	} else if(lives === 2){
+	} else if (lives === 2) {
 		HP1.setAttribute("class", "empty");
 	}
+}
+
+function countScore() {
+	let levelWeight = diaArray[level]/40 | 0;
+	if(time >= 11){
+		timeScore = time * levelWeight;
+	}else if(time>11 && time<6){
+		timeScore = 0;
+	} else{
+		timeScore = -((5-time) * levelWeight);
+	}
+
+	levelScore = diaScore + timeScore;
+	totalScore += levelScore;
+	document.getElementById("lvlSc").textContent = levelScore;
+	document.getElementById("ttlSc").textContent = totalScore;
 }
 
 

@@ -185,8 +185,9 @@ body {
   color: white;
   font-size: 32px;
   text-align: center;
-  margin: 10px 0 20px 0;
+  margin: 0 0 20px 0;
   padding-top: 20px;
+  border-radius: 7px 7px 0 0;
 }
 
 .full {
@@ -246,10 +247,28 @@ body {
 }
 
 .buttons {
+  margin: 10px;
   display: flex;
   justify-content: center;
-  align-content: end;
-  height: 200px;
+  align-items: end;
+  height: 132px;
+}
+.buttons div {
+  margin: 10px 30px 10px 30px;
+  font-size: 20px;
+  padding: 5px;
+  background-color: #d2cccd;
+  cursor: pointer;
+}
+
+.lvlSc {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.black {
+  background-color: #23242c;
 }
 
 /*# sourceMappingURL=styles.css.map */
