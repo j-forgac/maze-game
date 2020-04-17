@@ -16,3 +16,33 @@ body{
   font-size: 80px;
   text-align: center;
 }
+
+.scoreText{
+  font-size: 60px;
+  font-weight: bold;
+}
+
+a{
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.button1{
+  margin: 30px;
+  padding: 25px 25px;
+  background-color: #dabe37;
+  border-radius: 2px;
+  &:hover{
+	background-color: #e2d73c;
+  }
+}
+
+img{
+  width: 70px;
+}
+
+.pictures{
+  margin: 50px 0 35px 0;
+}

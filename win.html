@@ -3,12 +3,26 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Maze Game</title>
-	<script src="js.js"></script>
 	<link rel="stylesheet" href="win.css">
 </head>
 <body>
 <div id="menuWin">
 	MAZE COMPLETED!
 </div>
+<div class="scoreText">
+	YOUR SCORE: <span id="score"></span>
+</div>
+<div class="pictures">
+	<img src="DiaGre.png">
+	<img src="DiaYel.png">
+	<img src="DiaRed.png">
+	<img src="DiaPur.png">
+	<img src="DiaBlue.png">
+</div>
+<div class="button1">
+	<a href="index.html">Play again</a>
+</div>
+	<script>document.getElementById('score').textContent = localStorage.getItem("score")</script>
 </body>
+
 </html>

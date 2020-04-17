@@ -40,6 +40,7 @@ let diaArray = [
 	2000,
 	3000
 ];
+let bonus;
 
 
 let ikons = document.getElementsByClassName("ikons");
@@ -147,7 +148,10 @@ function changeMoveWin() {
 	document.getElementById("next").setAttribute("class", "show");
 
 	diaScore = diaArray[level];
-	if (level > 4) {
+	if (level > 0) {
+		countScore();
+		livesBonus();
+		localStorage.setItem("score", totalScore);
 		window.location = "win.html";
 	} else {
 		showPopUp();
@@ -329,6 +333,11 @@ function countScore() {
 	totalScore += levelScore;
 	document.getElementById("lvlSc").textContent = levelScore;
 	document.getElementById("ttlSc").textContent = totalScore;
+}
+
+function livesBonus() {
+	bonus = lives * 250;
+	totalScore = totalScore + bonus;
 }
 
 
