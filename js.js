@@ -148,7 +148,7 @@ function changeMoveWin() {
 	document.getElementById("next").setAttribute("class", "show");
 
 	diaScore = diaArray[level];
-	if (level > 0) {
+	if (level > 3) {
 		countScore();
 		livesBonus();
 		localStorage.setItem("score", totalScore);
